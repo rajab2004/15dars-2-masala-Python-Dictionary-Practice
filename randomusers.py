@@ -157,14 +157,17 @@ def group_users_by_nationality(data: dict) -> dict:
     Returns:
         dict: Dictionary with nationality as keys and count as values.
     """
-    users = []
-    for user in data['results']:
-        if user['location']['country'] == country:
-            users.append({
-                'fullname':user['name']['first'] + " " + user['name']['last'],
-                'enail':user['email']
-                
-            })
+    natija = {}
+
+    for user in data.get("results", []):
+        millat = user.get("nat", "Unknown")
+        if millat in natija:
+            natija[millat] += 1
+        else:
+            natija[millat] = 1
+
+    return natija
+
 
 def get_all_coordinates(data: dict) -> list[tuple[str, str]]:
     """
